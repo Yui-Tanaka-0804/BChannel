@@ -10,6 +10,7 @@
 *  `Expected status code 200 but received 500.` 一覧ページがbrowser上は動いてるのにテストだと動かない。→原因はDB内がリセットされて、データがなくて表示時にエラー吐いてたから。なのでデータ突っ込もうとしたらめっちゃエラー吐いて進まなくなった。そして時間切れ。
 ### 4日目
 `testing.ERROR: could not find driver (SQL: PRAGMA foreign_keys = ON;) ` テスト動かん。dev環境はmysqlでやってるけど、phpunitではデフォルトでsqliteを指定してあるのが原因かと。→sqlite、Ubuntuに入ってた。じゃあ設定が悪いってことか。→デフォルトではsqliteのメモリ機能を使ってうまく動くように組まれてるらしいが如何せん設定がうまくいかない。諦めてmysqlを使うように修正する。phpunit.xmlでmysqlを指定、データベースを追加で作成(DB名は`testing`)→エラー内容が変わった。テーブルが無いというエラーなので`php artisan migrate`に相当する関数を追加→methodがないと思ったら`use PHPUnit\Framework\TestCase`になってた。`use Tests\TestCase`に修正→エラーが残り１つまで減った。testing.responseがない。はて、さっきまでのエラーではtesting.response**s**だった気がしたが…→綴り間違いですね…修正したらエラー消えました。お疲れさまでした。（※まだまだこれから）
+* コントローラーからいらないメソッドを消した。残りのやつはまた火曜日に。
 
 ---
 
