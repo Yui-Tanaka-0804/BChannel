@@ -20,16 +20,6 @@ class ResponseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,29 +37,6 @@ class ResponseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Response $response)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Response  $response
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Response $response)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Response  $response
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Response $response)
     {
         //
     }
