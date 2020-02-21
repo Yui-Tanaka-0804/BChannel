@@ -1,3 +1,18 @@
+
+## 作業日記
+この日誌書くのでわりと時間使ってるので評価材料として見てもらえると嬉しいです・・・
+### 1日目
+ネタ作り。Slack内に某匿名掲示板を作るという記事があったのを思い出したので、**掲示板を作る**方向で決定。とりあえず以前投げっぱなしジャーマン決めて放置したミドルウェアをきちんと作成することを目標に決めた。あとbot。テストはちゃんと組む。
+### 2日目
+環境構築した。とりあえずWSLに直乗せした。余った時間でDB少し作った。自動生成に任せたらファクトリーとか出てきたのでちゃんと作ることにした。
+### 3日目
+**「これミドルウェア関係なくない…？」** ってことで目標変更。**テスト組む**のを目標にした。もはや研究サイド。そしてこれ書きながらコメント書いてないの思い出した。これ以降はちゃんと書きます。
+*  `Expected status code 200 but received 500.` 一覧ページがbrowser上は動いてるのにテストだと動かない。→原因はDB内がリセットされて、データがなくて表示時にエラー吐いてたから。なのでデータ突っ込もうとしたらめっちゃエラー吐いて進まなくなった。そして時間切れ。
+### 4日目
+`testing.ERROR: could not find driver (SQL: PRAGMA foreign_keys = ON;) ` テスト動かん。dev環境はmysqlでやってるけど、phpunitではデフォルトでsqliteを指定してあるのが原因かと。→sqlite、Ubuntuに入ってた。じゃあ設定が悪いってことか。→デフォルトではsqliteのメモリ機能を使ってうまく動くように組まれてるらしいが如何せん設定がうまくいかない。諦めてmysqlを使うように修正する。phpunit.xmlでmysqlを指定、データベースを追加で作成(DB名は`testing`)→エラー内容が変わった。テーブルが無いというエラーなので`php artisan migrate`に相当する関数を追加→methodがないと思ったら`use PHPUnit\Framework\TestCase`になってた。`use Tests\TestCase`に修正→エラーが残り１つまで減った。testing.responseがない。はて、さっきまでのエラーではtesting.response**s**だった気がしたが…→綴り間違いですね…修正したらエラー消えました。お疲れさまでした。（※まだまだこれから）
+
+---
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
