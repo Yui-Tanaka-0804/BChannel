@@ -7,8 +7,24 @@
     <title>スレッド（テスト） - Bちゃんねる</title>
 </head>
 <body>
-    @foreach ($data as $item)
-    <p>{{ $item->content }}</p>
-    @endforeach
+    <div class='page_order'>
+        {{$start_num}}番から{{$end_num}}番を表示
+    </div>
+    <div class='response_list'>
+        @foreach ($data as $item)
+        <p>{{ $item->id . ". " . $item->content }}</p>
+        @endforeach
+    </div>
+    <div class='post_response'>
+        <form action="{{ url()->current() }}" method="POST">
+            {{ csrf_field() }}
+            <div>
+                <textarea name="content"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="投稿" />
+            </div>
+        </form>
+    </div>
 </body>
 </html>

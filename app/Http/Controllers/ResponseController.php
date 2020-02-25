@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Response;
 use Illuminate\Http\Request;
 
 class ResponseController extends Controller
@@ -14,9 +13,10 @@ class ResponseController extends Controller
      */
     public function index($thread_name)
     {
-        $res_all = Response::All();
+        $res = \App\Response::All();
+        $page_num = $res->count();
         
-        return view('data_check', ['data'=>$res_all]);
+        return view('data_check', ['thread_name'=>$thread_name, 'data'=>$res, 'start_num'=>1, 'end_num'=>$page_num]);
     }
 
     /**
@@ -25,9 +25,16 @@ class ResponseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, String $thread_name)
     {
-        //
+        $request->validate([
+            'content' => 'required',
+        ]);
+
+        $res = new \App\Response;
+        $res->content = $request->content;
+        $res->save();
+        return redirect($thread_name);
     }
 
     /**
@@ -36,19 +43,10 @@ class ResponseController extends Controller
      * @param  \App\Response  $response
      * @return \Illuminate\Http\Response
      */
-    public function show(Response $response)
+    public function show(String $thread_name, String $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Response  $response
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Response $response)
-    {
-        //
+        $id = explode("-", $id, 2);
+        $res = \App\Response::whereBetween('id', [$id[0], $id[1]])->get();
+        return view('data_check', ['thread_name'=>$thread_name, 'data'=>$res, 'start_num'=>$id[0], 'end_num'=>$id[1]]);
     }
 }

@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/{thread_name}', 'ResponseController@index');
+Route::get('/{thread_name}/{id}', 'ResponseController@show');
+Route::post('/{thread_name}', 'ResponseController@store');
+Route::post('/{thread_name}/{id}', 'ResponseController@store');
