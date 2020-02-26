@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'ThreadController@index');
+Route::post('/', 'ThreadController@store');
+Route::delete('/{thread_id}', 'ThreadController@destroy');
 
 Route::get('/{thread_name}', 'ResponseController@index');
 Route::get('/{thread_name}/{id}', 'ResponseController@show');
