@@ -15,8 +15,13 @@ class CreateResponsesTable extends Migration
     {
         Schema::create('responses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('thread_id')->unsigned();
             $table->text('content');
             $table->timestamps();
+
+            $table->foreign('thread_id')
+            ->references('id')->on('threads')
+            ->onDelete('cascade');
         });
     }
 
