@@ -14,9 +14,14 @@ class ResponseController extends Controller
     public function index($thread_name)
     {
         $res = \App\Response::All();
-        $page_num = $res->count();
+        $res_num = $res->count();
+
+        // 0件の時に表示が「1-0」のようになってしまうので対処
+        if ($res_num < 1) {
+            $res_num = 1;
+        }
         
-        return view('data_check', ['thread_name'=>$thread_name, 'data'=>$res, 'start_num'=>1, 'end_num'=>$page_num]);
+        return view('data_check', ['thread_name'=>$thread_name, 'data'=>$res, 'start_num'=>1, 'end_num'=>$res_num]);
     }
 
     /**
