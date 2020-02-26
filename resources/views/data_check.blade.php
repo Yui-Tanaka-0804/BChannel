@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Bちゃんねる</h1>
+        <a href="{{ url('') }}"><h1>Bちゃんねる</h1></a>
         <div class='page_order'>
             {{$start_num}}番から{{$end_num}}番を表示
         </div>
