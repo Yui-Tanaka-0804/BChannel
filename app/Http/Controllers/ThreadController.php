@@ -44,9 +44,13 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread, $id)
+    public function destroy(Thread $thread, $thread_id)
     {
-        Thread::destroy($id);
+        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
+            return redirect('/');
+        }
+        
+        Thread::destroy($thread_id);
         return redirect("/");
     }
 }

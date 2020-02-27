@@ -14,7 +14,7 @@
         </div>
         <div class='response_list'>
             @foreach ($data as $item)
-            <p>{{ $item->id . ". " . $item->content }}</p>
+            <p>{{ $loop->iteration . ". " . $item->content }}</p>
             @endforeach
         </div>
         <div class='post_response'>

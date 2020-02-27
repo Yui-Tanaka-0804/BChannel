@@ -12,6 +12,8 @@ class ResponseSeeder extends Seeder
      */
     public function run()
     {
-        factory(Response::class, 10)->create();
+        factory(App\Thread::class)->create()->each(function(App\Thread $thread) {
+            $thread->responses()->saveMany(factory(App\Response::class, rand(1, 10))->make());
+        });
     }
 }

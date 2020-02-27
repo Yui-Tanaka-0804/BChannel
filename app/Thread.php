@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
-    // public function count_res()
-    // {
-    //     //
-    // }
+    public function responses()
+    {
+        return $this->hasMany(Response::class);
+    }
 }

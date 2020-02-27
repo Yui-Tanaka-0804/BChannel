@@ -19,14 +19,14 @@
     <title>スレッド一覧 - Bちゃんねる</title>
 </head>
 <body>
+    {{ csrf_field() }}
     <div class="container">
         <a href="{{ url()->current() }}"><h1>Bちゃんねる</h1></a>
         <h2>スレッド一覧</h2>
         @foreach ($data as $item)
         <form action="/{{ $item->id }}" method="POST">
-            {{ csrf_field() }}
             @method('DELETE')
-            <p>{{ $item->id . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a> <input type="submit" value="削除" /></p>
+            <p>{{ $loop->iteration . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a> <input type="submit" value="削除" /></p>
         </form>
         @endforeach
         
@@ -34,7 +34,6 @@
         
         <div class='post_response'>
             <form action="/" method="POST">
-                {{ csrf_field() }}
                 <div>
                     スレッド作成：
                     <input type="text" name="name" />
