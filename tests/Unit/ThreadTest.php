@@ -2,11 +2,14 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Thread;
 
 class ThreadTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * 各テスト実行前に呼ばれる。
      *

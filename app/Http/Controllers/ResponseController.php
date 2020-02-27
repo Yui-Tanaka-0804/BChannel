@@ -13,6 +13,10 @@ class ResponseController extends Controller
      */
     public function index($thread_id)
     {
+        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
+            return redirect('/');
+        }
+
         $res = \App\Response::where('thread_id', $thread_id)->get(['content']);
         $res_num = $res->count();
 
@@ -32,6 +36,10 @@ class ResponseController extends Controller
      */
     public function store(Request $request, String $thread_id)
     {
+        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
+            return redirect('/');
+        }
+
         $request->validate([
             'content' => 'required',
         ]);
@@ -51,6 +59,10 @@ class ResponseController extends Controller
      */
     public function show(String $thread_id, String $id)
     {
+        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
+            return redirect('/');
+        }
+
         $id = explode("-", $id, 2);
         $res = \App\Response::whereBetween('id', [$id[0], $id[1]])->get();
         return view('data_check', ['thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$id[0], 'end_num'=>$id[1]]);

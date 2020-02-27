@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class ThreadPageTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * 各テスト実行前に呼ばれる。
      *

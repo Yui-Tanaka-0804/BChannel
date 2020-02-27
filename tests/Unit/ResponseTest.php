@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ResponseTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * 各テスト実行前に呼ばれる。
      *
@@ -31,9 +34,6 @@ class ResponseTest extends TestCase
         });
 
         // データが正しく登録されているか
-        $this->assertDatabaseHas('responses', [
-            // 'thread_id' => $insert_data->thread_id,
-            // 'content' => $insert_data->content,
-        ]);
+        $this->assertTrue($insert_data);
     }
 }

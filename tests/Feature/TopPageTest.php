@@ -9,6 +9,8 @@ use App\Thread;
 
 class TopPageTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * 各テスト実行前に呼ばれる。
      *
@@ -31,20 +33,12 @@ class TopPageTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
         $response->assertSeeText('スレッド一覧');
-        $response->assertSeeInOrder(['<form', 'name="_token"', '</form>']);
         
-        $response = $this->post('/',['name' => '/ post testing...',]);
+        $response = $this->post('/',['name' => 'postTesting',]);
         $response->assertRedirect('/');
-        
-        $insert_data = Thread::where('name', '/ post testing...')->first();
+        $this->assertDatabaseHas('threads', ['name' => 'postTesting',]);
 
-        $response = $this->get('/' . $insert_data->id);
-        $response->assertOk();
-        // $response->assertSeeInOrder(['<form', 'name="_token"', '<p', '<a href="', '</a>', '"submit" value="削除"', '</p>', '</form>']);
-
-        $response = $this->delete('/' . $insert_data->id);
-        $response->assertRedirect('/');
-        $response = $this->get('/' . $insert_data->id);
-        $response->assertNotFound();
+        $response = $this->delete('/1');
+        $this->assertDatabaseMissing('threads', ['name' => 'postTesting',]);
     }
 }
