@@ -15,7 +15,7 @@ Route::get('/', 'ThreadController@index');
 Route::post('/', 'ThreadController@store');
 Route::delete('/{thread_id}', 'ThreadController@destroy');
 
-Route::get('/{thread_name}', 'ResponseController@index');
-Route::get('/{thread_name}/{id}', 'ResponseController@show');
-Route::post('/{thread_name}', 'ResponseController@store');
-Route::post('/{thread_name}/{id}', 'ResponseController@store');
+Route::get('/{thread_id}', 'ResponseController@index');
+Route::get('/{thread_id}/{id}', 'ResponseController@show');
+Route::post('/{thread_id}', 'ResponseController@store');
+Route::post('/{thread_id}/{id}', 'ResponseController@store');
