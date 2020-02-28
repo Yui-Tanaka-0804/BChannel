@@ -18,10 +18,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>スレッド一覧 - Bちゃんねる</title>
 </head>
+<style>
+    html, body{
+        background-color: blanchedalmond;
+    }
+
+    p {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        padding-left:1.3em;
+        text-indent:-1.3em;
+    }
+</style>
 <body>
     <div class="container">
         <a href="{{ url()->current() }}"><h1>Bちゃんねる</h1></a>
-        <h2>スレッド一覧</h2>
+        <h2>スレッド一覧(<a href="{{ url()->current() }}">更新</a>)</h2>
         @foreach ($data as $item)
         <form action="/{{ $item->id }}" method="POST">
             {{ csrf_field() }}

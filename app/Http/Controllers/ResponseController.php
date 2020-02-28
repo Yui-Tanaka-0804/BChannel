@@ -22,6 +22,7 @@ class ResponseController extends Controller
             return redirect('/');
         }
 
+        $thread_name = \App\Thread::where('id', $thread_id)->first()->name;
         $res = \App\Response::where('thread_id', $thread_id)->get(['content']);
         $res_num = $res->count();
 
@@ -30,7 +31,7 @@ class ResponseController extends Controller
             $res_num = 1;
         }
         
-        return view('data_check', ['thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>1, 'end_num'=>$res_num]);
+        return view('data_check', ['thread_name'=>$thread_name, 'thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>1, 'end_num'=>$res_num]);
     }
 
     /**
@@ -79,7 +80,7 @@ class ResponseController extends Controller
         }
 
         $id = explode("-", $id, 2);
-        $res = \App\Response::whereBetween('id', [$id[0], $id[1]])->get();
+        $res = \App\Response::where('thread_id', $thread_id)->skip($id[0])->take($id[1]-$id[0]+1)->get();
         return view('data_check', ['thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$id[0], 'end_num'=>$id[1]]);
     }
 }
