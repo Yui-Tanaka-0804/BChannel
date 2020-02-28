@@ -10,4 +10,9 @@ class Thread extends Model
     {
         return $this->hasMany(Response::class);
     }
+
+    public function responses_count()
+    {
+        return $this->hasMany(Response::class)->count();
+    }
 }

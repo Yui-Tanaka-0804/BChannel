@@ -46,6 +46,11 @@ class ThreadController extends Controller
      */
     public function destroy(Thread $thread, $thread_id)
     {
+        // 数字以外を通して爆発させてしまったので修正
+        if(!(is_numeric($thread_id))){
+            return redirect('/');
+        }
+
         if (\App\Thread::where('id', $thread_id)->doesntExist()) {
             return redirect('/');
         }

@@ -6,6 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>スレッド（テスト） - Bちゃんねる</title>
 </head>
+<style>
+    p {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        padding-left:1.3em;
+        text-indent:-1.3em;
+    }
+</style>
 <body>
     <div class="container">
         <a href="{{ url('') }}"><h1>Bちゃんねる</h1></a>
