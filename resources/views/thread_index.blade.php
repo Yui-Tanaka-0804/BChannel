@@ -17,6 +17,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>スレッド一覧 - Bちゃんねる</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <script src="{{ asset('/js/pwa.js') }}"></script>
 </head>
 <style>
     html, body{
