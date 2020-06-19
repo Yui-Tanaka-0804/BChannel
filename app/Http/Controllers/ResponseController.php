@@ -79,8 +79,9 @@ class ResponseController extends Controller
             return redirect('/');
         }
 
+        $thread_name = \App\Thread::where('id', $thread_id)->first()->name;
         $id = explode("-", $id, 2);
         $res = \App\Response::where('thread_id', $thread_id)->skip($id[0])->take($id[1]-$id[0]+1)->get();
-        return view('data_check', ['thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$id[0], 'end_num'=>$id[1]]);
+        return view('data_check', ['thread_name'=>$thread_name, 'thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$id[0], 'end_num'=>$id[1]]);
     }
 }
