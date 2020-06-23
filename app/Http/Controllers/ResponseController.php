@@ -11,13 +11,8 @@ class ResponseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($thread_id)
+    public function index(int $thread_id)
     {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
         if (\App\Thread::where('id', $thread_id)->doesntExist()) {
             return redirect('/');
         }
@@ -40,13 +35,8 @@ class ResponseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, String $thread_id)
+    public function store(Request $request, int $thread_id)
     {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
         if (\App\Thread::where('id', $thread_id)->doesntExist()) {
             return redirect('/');
         }
@@ -68,13 +58,8 @@ class ResponseController extends Controller
      * @param  \App\Response  $response
      * @return \Illuminate\Http\Response
      */
-    public function show(String $thread_id, String $id)
+    public function show(int $thread_id, String $id)
     {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
         if (\App\Thread::where('id', $thread_id)->doesntExist()) {
             return redirect('/');
         }
