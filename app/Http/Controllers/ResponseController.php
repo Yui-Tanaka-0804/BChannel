@@ -11,7 +11,7 @@ class ResponseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(int $thread_id)
+    public function index(Request $request, int $thread_id)
     {
         $thread_name = \App\Thread::where('id', $thread_id)->first()->name;
         $res = \App\Response::where('thread_id', $thread_id)->get(['content']);
