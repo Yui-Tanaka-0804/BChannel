@@ -24,16 +24,14 @@
         <h2>{{$thread_name}}</h2>
         <div class='page_order'>
             {{$start_num}}番から{{$end_num}}番を表示<br>
-            urlの後ろに/1-3などをつけると指定したレスだけ表示します。<br>
-            最新だけ表示は間に合いませんでした。すまんな。
         </div>
-        <a href="{{ url()->current() }}"><h4>更新</h4></a>
+        <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
         <div class='response_list'>
             @foreach ($data as $item)
             <p>{{ $loop->iteration+$start_num-1 . ". " . $item->content }}</p>
             @endforeach
         </div>
-    <a href="{{ url()->current() }}"><h4>更新</h4></a>
+        <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
         <div class='post_response'>
             <form action="{{ url()->current() }}" method="POST">
                 {{ csrf_field() }}
