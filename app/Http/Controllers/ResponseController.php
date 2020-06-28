@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ResponseController extends Controller
 {
@@ -13,11 +14,26 @@ class ResponseController extends Controller
      */
     public function index(Request $request, int $thread_id)
     {
+        $validator = Validator::make($request->query(),[
+            'start_num' => 'regex:/^[1-9][0-9]*$/',
+            'end_num' => 'regex:/^[1-9][0-9]*$/',
+        ]);
+        
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $thread_name = \App\Thread::where('id', $thread_id)->first()->name;
         $res_count = \App\Response::where('thread_id', $thread_id)->count();
 
         $start_num = (int)$request->input('start_num', 1); 
         $end_num = (int)$request->input('end_num', $res_count); // end_numの指定が無い場合は件数を取得して代入する
+
+        // 指定されたレスがまだ無い or 指定番号が0以下 or startがendの値を超えている場合は前ページにリダイレクト
+        if ($start_num < 1 || $start_num > $res_count || $end_num < 1 || $end_num > $res_count
+            || $start_num > $end_num) {
+            return back()->withErrors($validator)->withInput();
+        }
 
         $res = \App\Response::where('thread_id', $thread_id)->skip($start_num-1)->take($end_num-$start_num+1)->get(['content']);
 
