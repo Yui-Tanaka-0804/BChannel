@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ResponseController extends Controller
 {
@@ -11,27 +12,32 @@ class ResponseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($thread_id)
+    public function index(Request $request, int $thread_id)
     {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
-        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
-            return redirect('/');
+        $validator = Validator::make($request->query(),[
+            'start_num' => 'regex:/^[1-9][0-9]*$/',
+            'end_num' => 'regex:/^[1-9][0-9]*$/',
+        ]);
+        
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
 
         $thread_name = \App\Thread::where('id', $thread_id)->first()->name;
-        $res = \App\Response::where('thread_id', $thread_id)->get(['content']);
-        $res_num = $res->count();
+        $res_count = \App\Response::where('thread_id', $thread_id)->count();
 
-        // 0件の時に表示が「1-0」のようになってしまうので対処
-        if ($res_num < 1) {
-            $res_num = 1;
+        $start_num = (int)$request->input('start_num', 1); 
+        $end_num = (int)$request->input('end_num', $res_count); // end_numの指定が無い場合は件数を取得して代入する
+
+        // 指定されたレスがまだ無い or 指定番号が0以下 or startがendの値を超えている場合は前ページにリダイレクト
+        if ($start_num < 1 || $start_num > $res_count || $end_num < 1 || $end_num > $res_count
+            || $start_num > $end_num) {
+            return back()->withErrors($validator)->withInput();
         }
-        
-        return view('data_check', ['thread_name'=>$thread_name, 'thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>1, 'end_num'=>$res_num]);
+
+        $res = \App\Response::where('thread_id', $thread_id)->skip($start_num-1)->take($end_num-$start_num+1)->get(['content']);
+
+        return view('data_check', ['thread_name'=>$thread_name, 'thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$start_num, 'end_num'=>$end_num]);
     }
 
     /**
@@ -40,17 +46,8 @@ class ResponseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, String $thread_id)
+    public function store(Request $request, int $thread_id)
     {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
-        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
-            return redirect('/');
-        }
-
         $request->validate([
             'content' => 'required',
         ]);
@@ -60,28 +57,5 @@ class ResponseController extends Controller
         $res->content = $request->content;
         $res->save();
         return redirect($thread_id);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Response  $response
-     * @return \Illuminate\Http\Response
-     */
-    public function show(String $thread_id, String $id)
-    {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
-        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
-            return redirect('/');
-        }
-
-        $thread_name = \App\Thread::where('id', $thread_id)->first()->name;
-        $id = explode("-", $id, 2);
-        $res = \App\Response::where('thread_id', $thread_id)->skip($id[0])->take($id[1]-$id[0]+1)->get();
-        return view('data_check', ['thread_name'=>$thread_name, 'thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$id[0], 'end_num'=>$id[1]]);
     }
 }

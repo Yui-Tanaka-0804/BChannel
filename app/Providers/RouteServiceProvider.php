@@ -30,7 +30,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // ここで指定したパターンに当てはまらないURLは弾かれる
+        Route::pattern('thread_id', '[0-9]+');
 
         parent::boot();
     }

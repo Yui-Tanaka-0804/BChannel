@@ -44,17 +44,8 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread, $thread_id)
-    {
-        // 数字以外を通して爆発させてしまったので修正
-        if(!(is_numeric($thread_id))){
-            return redirect('/');
-        }
-
-        if (\App\Thread::where('id', $thread_id)->doesntExist()) {
-            return redirect('/');
-        }
-        
+    public function destroy(Thread $thread, int $thread_id)
+    {   
         Thread::destroy($thread_id);
         return redirect("/");
     }
