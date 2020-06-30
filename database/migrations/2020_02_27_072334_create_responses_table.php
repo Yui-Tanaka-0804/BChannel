@@ -22,6 +22,8 @@ class CreateResponsesTable extends Migration
             $table->foreign('thread_id')
             ->references('id')->on('threads')
             ->onDelete('cascade');
+            
+            $table->softDeletes();
         });
     }
 
