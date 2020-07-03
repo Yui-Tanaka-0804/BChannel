@@ -29,17 +29,19 @@ class ThreadPageTest extends TestCase
      */
     public function testExample()
     {
-        $insert_data = factory(\App\Thread::class)->create();
+        factory(\App\Thread::class)->create()->each(function(\App\Thread $thread) {
+            $thread_id = $thread->id;
+            $thread->responses()->saveMany(factory(\App\Response::class, 10)->make());
+        });
 
-        $thread = \App\Thread::All()->first();
-        $thread_id = $thread->id;
+        $thread_id = \App\Thread::inRandomOrder()->first()->id;
 
         $response = $this->get('/' . $thread_id);
         $response->assertStatus(200);
         $response->assertSeeText('1番から');
         $response->assertSeeInOrder(['<html', '<head', '<div class=\'page_order\'', '<div class=\'response_list\'']);
 
-        $response = $this->get('/' . $thread_id . '/5-10');
+        $response = $this->get('/' . $thread_id . '?start_num=5&end_num=10');
         $response->assertStatus(200);
         $response->assertSeeText('5番から10番を表示');
         $response->assertSeeInOrder(['<html', '<head', '<div class=\'page_order\'', '<div class=\'response_list\'']);
@@ -49,7 +51,7 @@ class ThreadPageTest extends TestCase
         $response = $this->get('/' . $thread_id);
         $response->assertSeeText('post testing...');
 
-        $response = $this->post('/' . $thread_id . '/5-10',['content' => '5-10 post testing...',]);
+        $response = $this->post('/' . $thread_id . '?start_num=5&end_num=10',['content' => '5-10 post testing...',]);
         $response->assertRedirect('/' . $thread_id);
         $response = $this->get('/' . $thread_id);
         $response->assertSeeText('5-10 post testing...');        

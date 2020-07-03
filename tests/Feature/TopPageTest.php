@@ -38,7 +38,9 @@ class TopPageTest extends TestCase
         $response->assertRedirect('/');
         $this->assertDatabaseHas('threads', ['name' => 'postTesting',]);
 
-        $response = $this->delete('/1');
-        $this->assertDatabaseMissing('threads', ['name' => 'postTesting',]);
+        $thread_id = Thread::where("name", "postTesting")->first()->id;
+
+        $response = $this->delete('/'.$thread_id);
+        $this->assertSoftDeleted('threads', ['name' => 'postTesting',]);
     }
 }
