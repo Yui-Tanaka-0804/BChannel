@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
+use App\Response;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -30,11 +31,17 @@ class ThreadController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'content' => 'required'
         ]);
 
-        $res = new thread;
-        $res->name = $request->name;
-        $res->save();
+        $thread = new thread;
+        $thread->name = $request->name;
+        $thread->save();
+        
+        $response = new Response;
+        $response->content = $request->content;
+        $thread->responses()->save($response);
+
         return redirect("/");
     }
 
