@@ -37,6 +37,11 @@ class ThreadController extends Controller
         $thread = new thread;
         $thread->name = $request->name;
         $thread->save();
+        
+        $response = new Response;
+        $response->content = $request->content;
+        $thread->responses()->save($response);
+
         return redirect("/");
     }
 

@@ -48,9 +48,17 @@
             <form action="/" method="POST">
                 {{ csrf_field() }}
                 <div>
-                    スレッド作成：
-                    <input type="text" name="name" />
-                    <input type="submit" value="追加" />
+                    <div>
+                        スレッド作成：
+                        <input type="text" name="name" />
+                    </div>
+                    <div>
+                        本文：
+                        <textarea name="content"></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" value="追加" />
+                    </div>
                 </div>
             </form>
         </div>
