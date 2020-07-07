@@ -20,3 +20,6 @@ Route::middleware('thread')->group(function () {
     Route::get('/{thread_id}', 'ResponseController@index');
     Route::post('/{thread_id}', 'ResponseController@store');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
