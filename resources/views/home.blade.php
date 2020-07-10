@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">管理者メニュー</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,13 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @foreach ($data as $item)
+                    <form action="/{{ $item->id }}" method="POST">
+                        {{ csrf_field() }}
+                        @method('DELETE')
+                    <p>{{ $item->id . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}} <input type="submit" value="削除" /></p>
+                    </form>
+                    @endforeach
                 </div>
             </div>
         </div>
