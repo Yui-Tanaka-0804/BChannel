@@ -35,11 +35,7 @@
         <a href="{{ url()->current() }}"><h1>Bちゃんねる</h1></a>
         <h2>スレッド一覧(<a href="{{ url()->current() }}">更新</a>)</h2>
         @foreach ($data as $item)
-        <form action="/{{ $item->id }}" method="POST">
-            {{ csrf_field() }}
-            @method('DELETE')
-        <p>{{ $loop->iteration-1 + $data->firstItem() . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}} <input type="submit" value="削除" /></p>
-        </form>
+        <p>{{ $loop->iteration-1 + $data->firstItem() . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}}</p>
         @endforeach
         
         {{ $data->links() }}

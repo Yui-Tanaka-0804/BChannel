@@ -11,12 +11,16 @@
 |
 */
 
-Route::get('/', 'ThreadController@index');
+Route::get('/', 'ThreadController@index')->name('index');
 Route::post('/', 'ThreadController@store');
 
 Route::middleware('thread')->group(function () {
-    Route::delete('/{thread_id}', 'ThreadController@destroy');
-    
     Route::get('/{thread_id}', 'ResponseController@index');
     Route::post('/{thread_id}', 'ResponseController@store');
 });
+Auth::routes(['register' => false]);
+
+Route::middleware('auth')->group(function () {
+    Route::delete('/{thread_id}', 'ThreadController@destroy')->middleware('thread');
+});
+Route::get('/home', 'HomeController@index')->name('home');
