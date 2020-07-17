@@ -21,6 +21,22 @@
         padding-left:1.3em;
         text-indent:-1.3em;
     }
+
+    @font-face {
+        font-family: "aahub_light";
+        src:
+            url("{{ url('/font/aahub_light.woff2') }}") format("woff2"),
+            url("{{ url('/font/aahub_light.woff') }}") format("woff"),
+            url("{{ url('/font/aahub_light.ttf') }}") format("ttf");
+        font-display: swap;
+    }
+
+    .aahub_light {
+        font-family: "aahub_light";
+        white-space: pre;
+        font-size: 16px;
+        line-height: 18px;
+    }
 </style>
 <body>
     <div class="container">
@@ -32,7 +48,7 @@
         <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
         <div class='response_list'>
             @foreach ($data as $item)
-            <p>{{ $loop->iteration+$start_num-1 . ". " . $item->content }}</p>
+            <p class="aahub_light">{{ $loop->iteration+$start_num-1 . ". " }}<span>{{ $item->content }}</span></p>
             @endforeach
         </div>
         <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
@@ -40,7 +56,7 @@
             <form action="{{ url()->current() }}" method="POST">
                 {{ csrf_field() }}
                 <div>
-                    <textarea name="content"></textarea>
+                    <textarea name="content" class="aahub_light"></textarea>
                 </div>
                 <div>
                     <input type="submit" value="投稿" />
