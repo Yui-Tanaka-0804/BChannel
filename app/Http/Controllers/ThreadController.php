@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Thread;
 use App\Response;
 use Illuminate\Http\Request;
+use App\Events\PostBotAction;
 
 class ThreadController extends Controller
 {
@@ -41,6 +42,17 @@ class ThreadController extends Controller
         $response = new Response;
         $response->content = $request->content;
         $thread->responses()->save($response);
+
+        // 以下はbotの処理
+        $content = $response->content;
+        if (substr($content, 0, 1) == "/") {
+            $thread_id = $thread->id;
+
+            $explode_str = explode(" ",$content,2);
+            $command = ltrim($explode_str[0], '/');
+
+            event(new PostBotAction($thread_id, $command));
+        }
 
         return redirect("/");
     }

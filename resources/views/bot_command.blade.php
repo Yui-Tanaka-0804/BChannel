@@ -11,12 +11,11 @@
 
 じゃあ、注文を聞こうか。 -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>スレッド一覧 - Bちゃんねる</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>コマンド一覧 - Bちゃんねる</title>
 
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
@@ -33,32 +32,50 @@
         padding-left:1.3em;
         text-indent:-1.3em;
     }
+
+    @font-face {
+        font-family: "aahub_light";
+        src:
+            url("{{ url('/font/aahub_light.woff2') }}") format("woff2"),
+            url("{{ url('/font/aahub_light.woff') }}") format("woff"),
+            url("{{ url('/font/aahub_light.ttf') }}") format("ttf");
+        font-display: swap;
+    }
+
+    .aahub_light {
+        font-family: "aahub_light";
+        white-space: pre;
+        font-size: 16px;
+        line-height: 18px;
+    }
 </style>
 <body>
     <div class="container">
-        <a href="{{ url()->current() }}"><h1>Bちゃんねる</h1></a>
-        <a href="{{ url()->current() . "/bot-command" }}">コマンド一覧</a>
-        <h2>スレッド一覧(<a href="{{ url()->current() }}">更新</a>)</h2>
+        <a href="{{ url('') }}"><h1>Bちゃんねる</h1></a>
+        <h2>コマンド一覧</h2>
         @foreach ($data as $item)
-        <p>{{ $loop->iteration-1 + $data->firstItem() . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}}</p>
+        <form action="/bot-command/{{ $item->id }}" method="POST">
+            {{ csrf_field() }}
+            @method('DELETE')
+            <p class="aahub_light">{{ $loop->iteration . ". " }}{{ $item->command }} <input type="submit" value="削除" /><br>{{ $item->content }}</p>
+        </form>
         @endforeach
         
-        {{ $data->links() }}
-        
         <div class='post_response'>
-            <form action="/" method="POST">
+            <form action="/bot-command" method="POST">
                 {{ csrf_field() }}
                 <div>
+                    <p>コマンド登録</p>
                     <div>
-                        スレッド作成：
-                        <input type="text" name="name" />
+                        コマンド：
+                        <input type="text" name="command" />
                     </div>
                     <div>
                         本文：
-                        <textarea name="content"></textarea>
+                        <textarea name="content" class="aahub_light"></textarea>
                     </div>
                     <div>
-                        <input type="submit" value="追加" />
+                        <input type="submit" value="登録" />
                     </div>
                 </div>
             </form>

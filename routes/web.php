@@ -14,6 +14,10 @@
 Route::get('/', 'ThreadController@index')->name('index');
 Route::post('/', 'ThreadController@store');
 
+Route::get('/bot-command', 'BotSpeakController@index');
+Route::post('/bot-command', 'BotSpeakController@store');
+Route::delete('/bot-command/{id}', 'BotSpeakController@destroy');
+
 Route::middleware('thread')->group(function () {
     Route::get('/{thread_id}', 'ResponseController@index');
     Route::post('/{thread_id}', 'ResponseController@store');

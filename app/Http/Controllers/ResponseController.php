@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Events\PostBotAction;
 
 class ResponseController extends Controller
 {
@@ -56,6 +57,18 @@ class ResponseController extends Controller
         $res->thread_id = $thread_id;
         $res->content = $request->content;
         $res->save();
+
+        // 以下はbotの処理
+        $content = $res->content;
+        if (substr($content, 0, 1) == "/") {
+            $thread_id = $res->thread_id;
+
+            $explode_str = explode(" ",$content,2);
+            $command = ltrim($explode_str[0], '/');
+
+            event(new PostBotAction($thread_id, $command));
+        }
+
         return redirect($thread_id);
     }
 }
