@@ -34,10 +34,25 @@ class PostBotActionNotification implements ShouldQueue
         // 以下はbotの処理
         if (\App\BotSpeak::where('command', $command)->exists()) {
             $data = \App\BotSpeak::where('command', $command)->latest()->first();
-            $res = new \App\Response;
-            $res->thread_id = $thread_id;
-            $res->content = $data->content;
-            $res->save();
+
+            if (\App\BotSpeak::where('command', $command)->latest()->first()->is_available_all()) {
+                $res = new \App\Response;
+                $res->thread_id = $thread_id;
+                $res->content = $data->content;
+                $res->save();
+            } else {
+                $threads = \App\BotSpeak::where('command', $command)->latest()->first()->threads();
+                
+                foreach ($threads as $thread) {
+                    if ($thread->id == $thread_id) {
+                        $res = new \App\Response;
+                        $res->thread_id = $thread_id;
+                        $res->content = $data->content;
+                        $res->save();
+                    }
+                }
+            }
+
         }
     }
 }
