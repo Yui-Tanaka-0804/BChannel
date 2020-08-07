@@ -63,6 +63,20 @@
                 </div>
             </form>
         </div>
+        <div class='post_command'>
+            <form action="/bot-command" method="POST">
+                {{ csrf_field() }}
+                <div>
+                    <p>コマンド登録</p>
+                    <input type="hidden" name="thread_id" value="{{ request()->path() }}">
+                    <div>コマンド：<input type="text" name="command" /></div>
+                    <div>本文：<textarea name="content" class="aahub_light"></textarea></div>
+                    <div>
+                        <input type="submit" value="登録" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
