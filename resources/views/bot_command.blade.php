@@ -53,19 +53,35 @@
     <div class="container">
         <a href="{{ url('') }}"><h1>Bちゃんねる</h1></a>
         <h2>コマンド一覧</h2>
-        @foreach ($data as $item)
-        <form action="/bot-command/{{ $item->id }}" method="POST">
-            {{ csrf_field() }}
-            @method('DELETE')
-            <p class="aahub_light">{{ $loop->iteration . ". " }}{{ $item->command }} <input type="submit" value="削除" /><br>{{ $item->content }}</p>
-        </form>
-        @endforeach
-        
-        <div class='post_response'>
+        <div>@foreach ($data as $item)
+
+            <form action="/bot-command/{{ $item->id }}" method="POST">
+                {{ csrf_field() }}
+                @method('DELETE')
+
+                <div>{{ $loop->iteration . ". " }}{{ $item->command }} <input type="submit" value="削除" /></div>
+                <div>
+                    適用範囲：
+                    <div>
+                        @if ($item->is_available_all())全体
+                        @else @foreach ($item->threads()->get(['id', 'name']) as $thread){{ $thread->id . ". " }}<a href="{{ url('/') . "/" . $thread->id }}">{{ $thread->name }}</a>@endforeach @endif
+                    </div>
+                </div>
+                <div>
+                    内容：
+                    <div>
+                        <span class="aahub_light">{{ $item->content }}</span>
+                    </div>
+                </div>
+            </form>@endforeach
+
+        </div>
+        <div class='post_command'>
             <form action="/bot-command" method="POST">
                 {{ csrf_field() }}
                 <div>
-                    <p>コマンド登録</p>
+                    <div>コマンド登録</div>
+                    <input type="hidden" name="thread_id" value="0">
                     <div>
                         コマンド：
                         <input type="text" name="command" />

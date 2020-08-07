@@ -40,12 +40,33 @@ class BotSpeakController extends Controller
         $request->validate([
             'command' => 'required',
             'content' => 'required',
+            'thread_id' => 'numeric',
         ]);
 
+        $command = $request->command;
+        $content = $request->content;
+        $thread_id = $request->thread_id;
+
+        // 該当するスレッドが存在しない場合はエラー
+        // 想定されるパターンは 数値を書き換えた or 操作中にスレッドが削除された
+        // なので「エラーが発生しました」と表示してホーム画面に戻す
+        if (!($thread_id == 0 || \App\Thread::find($thread_id)->exists())) {
+            return back();
+        }
+
         $res = new \App\BotSpeak;
-        $res->command = $request->command;
-        $res->content = $request->content;
+        $res->command = $command;
+        $res->content = $content;
         $res->save();
+        
+        $command_id = $res->id;
+        
+        $ava = new \App\CommandAvailable;
+        $ava->command_id = $command_id;
+        $ava->thread_id = $thread_id;
+        $ava->save();
+
+        return back();
     }
 
     /**
@@ -91,6 +112,7 @@ class BotSpeakController extends Controller
     public function destroy(BotSpeak $botSpeak, int $id)
     {
         BotSpeak::destroy($id);
+        \App\CommandAvailable::where('command_id', $id)->delete();
         return redirect("/bot-command");
     }
 }
