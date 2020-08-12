@@ -66,6 +66,6 @@ class ThreadController extends Controller
     public function destroy(Thread $thread, int $thread_id)
     {   
         Thread::destroy($thread_id);
-        return redirect("/");
+        return back();
     }
 }
