@@ -69,6 +69,6 @@ class ResponseController extends Controller
             event(new PostBotAction($thread_id, $command));
         }
 
-        return redirect($thread_id);
+        return back();
     }
 }
