@@ -43,18 +43,18 @@ class ThreadController extends Controller
         $response->content = $request->content;
         $thread->responses()->save($response);
 
+        $thread_id = $thread->id;
+
         // 以下はbotの処理
         $content = $response->content;
         if (substr($content, 0, 1) == "/") {
-            $thread_id = $thread->id;
-
             $explode_str = explode(" ",$content,2);
             $command = ltrim($explode_str[0], '/');
 
             event(new PostBotAction($thread_id, $command));
         }
 
-        return redirect("/");
+        return redirect("/" . $thread_id);
     }
 
     /**
