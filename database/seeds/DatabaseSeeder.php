@@ -49,5 +49,20 @@ class DatabaseSeeder extends Seeder
 　　　　　　　　　　　　　　　　 .￣´　　 　　　　　　　　　.ﾞ~ﾟ'冖''''\"'ﾞ”″",
             ] 
         ]);
+
+        // 追加したコマンドのidを取得
+        $hiyoko_id = App\BotSpeak::where("command", "ぬるぽ")->first()->id;
+        $nullpo_id = App\BotSpeak::where("command", "ひよこ")->first()->id;
+
+        DB::table('command_availables')->insert([
+            [
+                'command_id' => $hiyoko_id,
+                'thread_id' => 0,
+            ],
+            [
+                'command_id' => $nullpo_id,
+                'thread_id' => 0,
+            ],
+        ]);
     }
 }
