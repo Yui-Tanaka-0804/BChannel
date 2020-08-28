@@ -18,7 +18,7 @@
                     <form action="/{{ $item->id }}" method="POST">
                         {{ csrf_field() }}
                         @method('DELETE')
-                    <p>{{ $item->id . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}} <input type="submit" value="削除" /></p>
+                    <p>{{ $item->id . ". " }}<a href="{{ url("/") . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}} <input type="submit" value="削除" /></p>
                     </form>
                     @endforeach
                 </div>
