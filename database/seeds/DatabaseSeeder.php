@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             [
                 'command' => "ぬるぽ",
                 'content' => "ｶﾞｯ",
+                'created_at' => now(), 
+                'updated_at' => now(), 
             ],
             [
                 'command' => "ひよこ",
@@ -47,6 +49,8 @@ class DatabaseSeeder extends Seeder
 　　 ヽゝ-__-‐'ﾉ　　　　　 | .'(＿_./ 　.,、　 ｀'､.　　　|　 '{,,＿__,,,,,,,,､.〟
 　　　　─‐'''´　　　　　　　ヽ,、　　 _./ ｀'-､,,ﾉ .　　 'ｖ,_　 ￣｀　　: ,,,l
 　　　　　　　　　　　　　　　　 .￣´　　 　　　　　　　　　.ﾞ~ﾟ'冖''''\"'ﾞ”″",
+                'created_at' => now(), 
+                'updated_at' => now(), 
             ] 
         ]);
 
@@ -58,10 +62,14 @@ class DatabaseSeeder extends Seeder
             [
                 'command_id' => $hiyoko_id,
                 'thread_id' => 0,
+                'created_at' => now(), 
+                'updated_at' => now(), 
             ],
             [
                 'command_id' => $nullpo_id,
                 'thread_id' => 0,
+                'created_at' => now(), 
+                'updated_at' => now(), 
             ],
         ]);
     }
