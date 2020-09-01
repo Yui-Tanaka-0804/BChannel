@@ -36,7 +36,7 @@ class ResponseController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $res = \App\Response::where('thread_id', $thread_id)->skip($start_num-1)->take($end_num-$start_num+1)->get(['content']);
+        $res = \App\Response::where('thread_id', $thread_id)->skip($start_num-1)->take($end_num-$start_num+1)->get(['content', 'updated_at']);
 
         return view('data_check', ['thread_name'=>$thread_name, 'thread_id'=>$thread_id, 'data'=>$res, 'start_num'=>$start_num, 'end_num'=>$end_num]);
     }

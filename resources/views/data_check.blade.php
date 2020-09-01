@@ -15,11 +15,15 @@
         background-color: blanchedalmond;
     }
     
-    p {
-        word-wrap: break-word;
-        white-space: pre-wrap;
+    .response {
+        border: dashed 1px grey;
+        margin-bottom: 1em;
+        padding: 0.3em;
+        background-color: ivory;
+    }
+
+    .response_content {
         padding-left:1.3em;
-        text-indent:-1.3em;
     }
 
     @font-face {
@@ -48,7 +52,10 @@
         <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
         <div class='response_list'>
             @foreach ($data as $item)
-            <p class="aahub_light">{{ $loop->iteration+$start_num-1 . ". " }}<span>{{ $item->content }}</span></p>
+            <div class='response'>
+                <div class='response_date'>{{ $loop->iteration+$start_num-1 . ". " . $item->updated_at}}</div>
+                <div class='response_content aahub_light'>{{ $item->content }}</div>
+            </div>
             @endforeach
         </div>
         <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
