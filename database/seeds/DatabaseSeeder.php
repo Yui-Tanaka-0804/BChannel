@@ -14,17 +14,16 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         factory(App\User::class)->create();
 
-        DB::table('bot_speaks')->insert([
-            [
-                'command' => "ぬるぽ",
-                'content' => "ｶﾞｯ",
-                'created_at' => now(), 
-                'updated_at' => now(), 
-            ],
-            [
-                'command' => "ひよこ",
-                'content' => "
-　　　　　　　,-'\"ヽ　　　　
+        $nullpo_id = DB::table('bot_speaks')->insertGetId([
+            'command' => "ぬるぽ",
+            'content' => "ｶﾞｯ",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $hiyoko_id = DB::table('bot_speaks')->insertGetId([
+            'command' => "ひよこ",
+            'content' => "　　　　　　　,-'\"ヽ　　　　
 　　　　　　/　　　i､　 　 　　　／￣￣　ヽ, 　　　　　＿/＼／＼/＼／|＿ 　
 　　　　　　{ ﾉ　　　\"' ゝ 　　 /　　　　　 　 ', 　　　　＼　　　　　　　　　　／
 　　　　　 ／　　 　 　　\"' ゝﾉ　{0}　 /¨`ヽ{0}　　　　 ＜　ニャーン！！　＞
@@ -49,14 +48,9 @@ class DatabaseSeeder extends Seeder
 　　 ヽゝ-__-‐'ﾉ　　　　　 | .'(＿_./ 　.,、　 ｀'､.　　　|　 '{,,＿__,,,,,,,,､.〟
 　　　　─‐'''´　　　　　　　ヽ,、　　 _./ ｀'-､,,ﾉ .　　 'ｖ,_　 ￣｀　　: ,,,l
 　　　　　　　　　　　　　　　　 .￣´　　 　　　　　　　　　.ﾞ~ﾟ'冖''''\"'ﾞ”″",
-                'created_at' => now(), 
-                'updated_at' => now(), 
-            ] 
+            'created_at' => now(), 
+            'updated_at' => now(), 
         ]);
-
-        // 追加したコマンドのidを取得
-        $hiyoko_id = App\BotSpeak::where("command", "ぬるぽ")->first()->id;
-        $nullpo_id = App\BotSpeak::where("command", "ひよこ")->first()->id;
 
         DB::table('command_availables')->insert([
             [
