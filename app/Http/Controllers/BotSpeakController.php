@@ -66,6 +66,8 @@ class BotSpeakController extends Controller
         $ava->thread_id = $thread_id;
         $ava->save();
 
+        \Log::info('store BotSpeak.', ["bot_speak_id" => $command_id, "thread_id" => 0, "ip" => $request->ip()]);
+
         return back();
     }
 
@@ -113,6 +115,9 @@ class BotSpeakController extends Controller
     {
         BotSpeak::destroy($id);
         \App\CommandAvailable::where('command_id', $id)->delete();
+
+        Log::info('destroy BotSpeak.', ["bot_speak_id" => $id, "ip" => $request->ip()]);
+
         return redirect("/bot-command");
     }
 }
