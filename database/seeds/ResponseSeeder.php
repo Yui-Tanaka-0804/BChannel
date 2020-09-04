@@ -14,6 +14,8 @@ class ResponseSeeder extends Seeder
     {
         factory(App\Thread::class)->create()->each(function(App\Thread $thread) {
             $thread->responses()->saveMany(factory(App\Response::class, rand(1, 10))->make());
+            Log::info('store Thread from ResponseSeeder.', ["thread_id" => $thread->id, "response_id" => $thread->responses()->get(['id']), "ip" => "localhost"]);
         });
+
     }
 }

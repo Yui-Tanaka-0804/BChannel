@@ -53,10 +53,14 @@ class ResponseController extends Controller
             'content' => 'required',
         ]);
 
+        $content = $request->content;
+
         $res = new \App\Response;
         $res->thread_id = $thread_id;
-        $res->content = $request->content;
+        $res->content = $content;
         $res->save();
+
+        \Log::info('store Response.', ["thread_id" => $thread_id, "response_id" => $res->id, "ip" => $request->ip()]);
 
         // 以下はbotの処理
         $content = $res->content;

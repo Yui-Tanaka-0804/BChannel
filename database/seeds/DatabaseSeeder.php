@@ -20,6 +20,13 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('command_availables')->insert([
+            'command_id' => $nullpo_id,
+            'thread_id' => 0,
+            'created_at' => now(), 
+            'updated_at' => now(), 
+        ]);
+        Log::info('store BotSpeak from DatabaseSeeder.', ["bot_speak_id" => $nullpo_id, "thread_id" => 0, "ip" => "localhost"]);
 
         $hiyoko_id = DB::table('bot_speaks')->insertGetId([
             'command' => "ひよこ",
@@ -52,19 +59,12 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(), 
         ]);
 
-        DB::table('command_availables')->insert([
-            [
-                'command_id' => $hiyoko_id,
-                'thread_id' => 0,
-                'created_at' => now(), 
-                'updated_at' => now(), 
-            ],
-            [
-                'command_id' => $nullpo_id,
-                'thread_id' => 0,
-                'created_at' => now(), 
-                'updated_at' => now(), 
-            ],
+        $hiyoko_ava_id = DB::table('command_availables')->insertGetId([
+            'command_id' => $hiyoko_id,
+            'thread_id' => 0,
+            'created_at' => now(), 
+            'updated_at' => now(), 
         ]);
+        Log::info('store BotSpeak from DatabaseSeeder.', ["bot_speak_id" => $hiyoko_id, "thread_id" => 0, "ip" => "localhost"]);
     }
 }

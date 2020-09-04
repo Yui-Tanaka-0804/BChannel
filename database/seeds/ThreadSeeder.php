@@ -12,6 +12,8 @@ class ThreadSeeder extends Seeder
      */
     public function run()
     {
-        factory(Thread::class, 10)->create();
+        factory(Thread::class, 10)->create()->each(function(App\Thread $thread) {
+            Log::info('store Thread from ThreadSeeder.', ["thread_id" => $thread->id, "ip" => "localhost"]);
+        });
     }
 }

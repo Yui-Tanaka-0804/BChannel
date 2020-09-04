@@ -35,15 +35,23 @@ class ThreadController extends Controller
             'content' => 'required'
         ]);
 
+        $thread_name = $request->name;
+        $request_content = $request->content;
+
         $thread = new thread;
-        $thread->name = $request->name;
+        $thread->name = $thread_name;
         $thread->save();
-        
-        $response = new Response;
-        $response->content = $request->content;
-        $thread->responses()->save($response);
 
         $thread_id = $thread->id;
+
+        \Log::info('store Thread.', ["thread_id" => $thread_id, "ip" => $request->ip()]);
+        
+        $response = new Response;
+        $response->content = $request_content;
+        $thread->responses()->save($response);
+
+
+        \Log::info('store Response.', ["thread_id" => $thread_id, "response_id" => $response->id, "ip" => $request->ip()]);
 
         // 以下はbotの処理
         $content = $response->content;
@@ -66,6 +74,7 @@ class ThreadController extends Controller
     public function destroy(Thread $thread, int $thread_id)
     {   
         Thread::destroy($thread_id);
+        \Log::info('destroy Thread.', ["thread_id" => $thread_id, "ip" => $request->ip()]);
         return back();
     }
 }
