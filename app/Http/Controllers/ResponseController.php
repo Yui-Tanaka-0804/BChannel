@@ -55,22 +55,20 @@ class ResponseController extends Controller
 
         $content = $request->content;
 
-        $res = new \App\Response;
-        $res->thread_id = $thread_id;
-        $res->content = $content;
-        $res->save();
-
-        \Log::info('store Response.', ["thread_id" => $thread_id, "response_id" => $res->id, "ip" => $request->ip()]);
-
         // 以下はbotの処理
-        $content = $res->content;
         if (substr($content, 0, 1) == "/") {
-            $thread_id = $res->thread_id;
-
             $explode_str = explode(" ",$content,2);
             $command = ltrim($explode_str[0], '/');
-
             event(new PostBotAction($thread_id, $command));
+            
+            \Log::info('notification PostBot.', ["thread_id" => $thread_id, "command" => $command, "ip" => $request->ip()]);
+        } else {
+            $res = new \App\Response;
+            $res->thread_id = $thread_id;
+            $res->content = $content;
+            $res->save();
+
+            \Log::info('store Response.', ["thread_id" => $thread_id, "response_id" => $res->id, "ip" => $request->ip()]);
         }
 
         return back();
