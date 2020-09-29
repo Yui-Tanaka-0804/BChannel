@@ -40,7 +40,7 @@ class PostBotActionNotification implements ShouldQueue
                 $res->thread_id = $thread_id;
                 $res->content = $data->content;
                 $res->save();
-                \Log::info('store Response from bot.', ["thread_id" => $thread_id, "response_id" => $res->id, "ip" => $request->ip()]);
+                \Log::info('store Response from bot.', ["thread_id" => $thread_id, "response_id" => $res->id, "ip" => "localhost"]);
             } else {
                 $threads = \App\BotSpeak::where('command', $command)->latest()->first()->threads();
                 
