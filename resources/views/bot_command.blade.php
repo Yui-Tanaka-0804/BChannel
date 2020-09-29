@@ -1,3 +1,6 @@
+@extends('layouts.header')
+
+@section('meme')
 <!-- やあ （´・ω・｀)
 ようこそ、バーボンハウスへ。
 このテキーラはサービスだから、まず飲んで落ち着いて欲しい。
@@ -10,52 +13,17 @@
 そう思って、このサイトを作ったんだ。
 
 じゃあ、注文を聞こうか。 -->
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>コマンド一覧 - Bちゃんねる</title>
+@endsection
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <script src="{{ asset('/js/pwa.js') }}"></script>
-</head>
-<style>
-    html, body{
-        background-color: blanchedalmond;
-    }
+@section('title')
+<title>コマンド一覧 - Bちゃんねる</title>
+@endsection
 
-    p {
-        word-wrap: break-word;
-        white-space: pre-wrap;
-        padding-left:1.3em;
-        text-indent:-1.3em;
-    }
-
-    @font-face {
-        font-family: "aahub_light";
-        src:
-            url("{{ url('/font/aahub_light.woff2') }}") format("woff2"),
-            url("{{ url('/font/aahub_light.woff') }}") format("woff"),
-            url("{{ url('/font/aahub_light.ttf') }}") format("ttf");
-        font-display: swap;
-    }
-
-    .aahub_light {
-        font-family: "aahub_light";
-        white-space: pre;
-        font-size: 16px;
-        line-height: 18px;
-    }
-</style>
-<body>
-    <div class="container">
-        <a href="{{ url('') }}"><h1>Bちゃんねる</h1></a>
+@section('content')
         <h2>コマンド一覧</h2>
         <div>@foreach ($data as $item)
 
-            <form action="/bot-command/{{ $item->id }}" method="POST">
+            <form action="/bot-command/{{ $item->id }}" method="POST" class="response">
                 {{ csrf_field() }}
                 @method('DELETE')
 
@@ -96,6 +64,4 @@
                 </div>
             </form>
         </div>
-    </div>
-</body>
-</html>
+@endsection

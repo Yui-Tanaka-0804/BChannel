@@ -1,65 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>スレッド（テスト） - Bちゃんねる</title>
+@extends('layouts.header')
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <script src="{{ asset('/js/pwa.js') }}"></script>
-</head>
-<style>
-    html, body{
-        background-color: blanchedalmond;
-    }
-    
-    .response {
-        border: dashed 1px grey;
-        margin-bottom: 1em;
-        padding: 0.3em;
-        background-color: ivory;
-    }
+@section('meme')
+<!-- やあ （´・ω・｀)
+ようこそ、バーボンハウスへ。
+このテキーラはサービスだから、まず飲んで落ち着いて欲しい。
 
-    .response_content {
-        padding-left:1.3em;
-    }
+うん、「また」なんだ。済まない。
+仏の顔もって言うしね、謝って許してもらおうとも思っていない。
 
-    @font-face {
-        font-family: "aahub_light";
-        src:
-            url("{{ url('/font/aahub_light.woff2') }}") format("woff2"),
-            url("{{ url('/font/aahub_light.woff') }}") format("woff"),
-            url("{{ url('/font/aahub_light.ttf') }}") format("ttf");
-        font-display: swap;
-    }
+でも、このソースコードを見たとき、君は、きっと言葉では言い表せない「ときめき」みたいなものを感じてくれたと思う。
+殺伐とした世の中で、そういう気持ちを忘れないで欲しい
+そう思って、このサイトを作ったんだ。
 
-    .aahub_light {
-        font-family: "aahub_light";
-        white-space: pre;
-        font-size: 16px;
-        line-height: 18px;
-    }
-</style>
-<body>
-    <div class="container">
-        <a href="{{ url('') }}"><h1>Bちゃんねる</h1></a>
+じゃあ、注文を聞こうか。 -->
+@endsection
+
+@section('title')
+<title>{{$thread_name}} - Bちゃんねる</title>
+@endsection
+
+@section('content')
         <h2>{{$thread_name}}</h2>
         <div class='page_order'>
             {{$start_num}}番から{{$end_num}}番を表示<br>
         </div>
-        <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
+        <h4><a href="{{ url()->current()}}?start_num={{$end_num}}">最新のレスを表示</a></h4>
         <div class='response_list'>
             @foreach ($data as $item)
             <div class='response'>
                 <div class='response_date'>{{ $loop->iteration+$start_num-1 . ". " . $item->updated_at}}</div>
-                <div class='response_content aahub_light'>{{ $item->content }}</div>
+                <div class='content'>
+                    <span class='aahub_light'>{{ $item->content }}</span>
+                </div>
             </div>
             @endforeach
         </div>
-        <a href="{{ url()->current()}}?start_num={{$end_num}}"><h4>最新のレスを表示</h4></a>
-        <div class='post_response'>
+        <h4><a href="{{ url()->current()}}?start_num={{$end_num}}">最新のレスを表示</a></h4>
+        <div class='response'>
             <form action="{{ url()->current() }}" method="POST">
                 {{ csrf_field() }}
                 <div>
@@ -70,7 +47,7 @@
                 </div>
             </form>
         </div>
-        <div class='post_command'>
+        <div class='response'>
             <form action="/bot-command" method="POST">
                 {{ csrf_field() }}
                 <div>
@@ -84,6 +61,4 @@
                 </div>
             </form>
         </div>
-    </div>
-</body>
-</html>
+@endsection

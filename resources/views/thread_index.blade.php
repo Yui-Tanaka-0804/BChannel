@@ -1,3 +1,6 @@
+@extends('layouts.header')
+
+@section('meme')
 <!-- やあ （´・ω・｀)
 ようこそ、バーボンハウスへ。
 このテキーラはサービスだから、まず飲んで落ち着いて欲しい。
@@ -10,40 +13,26 @@
 そう思って、このサイトを作ったんだ。
 
 じゃあ、注文を聞こうか。 -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>スレッド一覧 - Bちゃんねる</title>
+@endsection
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <script src="{{ asset('/js/pwa.js') }}"></script>
-</head>
-<style>
-    html, body{
-        background-color: blanchedalmond;
-    }
+@section('title')
+<title>Bちゃんねる</title>
+@endsection
 
-    p {
-        word-wrap: break-word;
-        white-space: pre-wrap;
-        padding-left:1.3em;
-        text-indent:-1.3em;
-    }
-</style>
-<body>
-    <div class="container">
-        <a href="{{ url()->current() }}"><h1>Bちゃんねる</h1></a>
-        <a href="{{ url()->current() . "/bot-command" }}">コマンド一覧</a>
-        <h2>スレッド一覧(<a href="{{ url()->current() }}">更新</a>)</h2>
-        @foreach ($data as $item)
-        <p>{{ $loop->iteration-1 + $data->firstItem() . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}}</p>
-        @endforeach
+@section('content')
+        <div class="card">
+            <div class="card-header">スレッド一覧(<a href="{{ url()->current() }}">更新</a>)</div>
+
+            <div class="card-body response">
+                @foreach ($data as $item)
+                <p>{{ $loop->iteration-1 + $data->firstItem() . ". " }}<a href="{{ url()->current() . "/" . $item->id }}">{{ $item->name }}</a>{{"(".$item->responses_count().")"}}</p>
+                @endforeach
+            </div>
+            <div class="card-footer">
+                {{ $data->links() }}
+            </div>
+        </div>
         
-        {{ $data->links() }}
         
         <div class='post_response'>
             <form action="/" method="POST">
@@ -63,6 +52,4 @@
                 </div>
             </form>
         </div>
-    </div>
-</body>
-</html>
+@endsection
